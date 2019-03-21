@@ -37,6 +37,8 @@ router.post("/", async function(req, res, next) {
       return res.json({
         success: true,
         message: "Authentication successful",
+        firstName,
+        lastName,
         token
       });
       //req.session.user = user;
