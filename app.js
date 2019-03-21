@@ -35,12 +35,26 @@ const authenticate = (req, res, next) => {
   res.status(401).json({ message: "No token provided" });
 };
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
+// app.get('/', function (req, res, next) {
+//   // Handle the get for this route
+// });
+
+// app.post('/', function (req, res, next) {
+//   // Handle the post for this route
+// });
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-// This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
-// This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 
 app.use(express.static(path.join(__dirname, "public")));
 
