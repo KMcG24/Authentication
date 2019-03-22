@@ -3,13 +3,14 @@ const express = require("express");
 const path = require("path");
 const logger = require("morgan");
 const jwt = require("jsonwebtoken");
+const config = require("./config");
 
 const privateRouter = require("./routes/private");
 const loginRouter = require("./routes/login");
 const usersRouter = require("./routes/users");
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/test", { useNewUrlParser: true });
+mongoose.connect(config.MONGO_URI, { useNewUrlParser: true });
 
 const app = express();
 
@@ -20,7 +21,7 @@ const authenticate = (req, res, next) => {
   console.log("token", token);
   if (token) {
     // verifies secret and checks exp
-    return jwt.verify(token, "superSecret", (err, decoded) => {
+    return jwt.verify(token, config.SECRET, (err, decoded) => {
       if (err) {
         return res.status(401).json({
           success: false,
@@ -59,9 +60,9 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/login", loginRouter);
-app.use("/users", usersRouter);
-app.use("/private", authenticate, privateRouter);
+app.use(config.routes.login, loginRouter);
+app.use(config.routes.users, usersRouter);
+app.use(config.routes.private, authenticate, privateRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
