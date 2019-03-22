@@ -7,7 +7,8 @@ const SECRET = process.env.SECRET;
 const routes = {
   private: "/private",
   users: "/users",
-  login: "/login"
+  login: "/login",
+  energisers: "/energisers"
 };
 
 const config = {

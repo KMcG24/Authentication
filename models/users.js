@@ -5,7 +5,7 @@ var userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
   email: { type: String, unique: true },
-  password: String
+  password: { type: String, minLength: 8, maxLength: 80 }
 });
 
 userSchema.pre("save", function(next) {

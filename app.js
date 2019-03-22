@@ -8,6 +8,7 @@ const config = require("./config");
 const privateRouter = require("./routes/private");
 const loginRouter = require("./routes/login");
 const usersRouter = require("./routes/users");
+const energisersRouter = require("./routes/energisers");
 
 const mongoose = require("mongoose");
 mongoose.connect(config.MONGO_URI, { useNewUrlParser: true });
@@ -63,6 +64,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(config.routes.login, loginRouter);
 app.use(config.routes.users, usersRouter);
 app.use(config.routes.private, authenticate, privateRouter);
+app.use(config.routes.energisers, energisersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
